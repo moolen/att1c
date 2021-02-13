@@ -1,0 +1,69 @@
+{{- if .Values.teams }}
+{{- $top := . -}}
+{{- range $index, $team := .Values.teams }}
+{{- if $team.name }}
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ $team.name }}
+  labels:
+    name: {{ $team.name }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: namespace-admin
+  namespace: {{ $team.name }}
+rules:
+- apiGroups: ["*"]
+  resources: ["*"]
+  verbs: ["*"]
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: flux:deploy
+  namespace: {{ $team.name }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: gotk-reconciler
+  namespace: {{ $team.name }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: namespace-admin
+subjects:
+- kind: ServiceAccount
+  name: flux:deploy
+  namespace: {{ $team.name }}
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: GitRepository
+metadata:
+  name: {{ $team.name }}
+  namespace: {{ $team.name }}
+spec:
+  interval: 1m
+  url: {{ $team.repo }}
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: {{ $team.name }}
+  namespace: {{ $team.name }}
+spec:
+  serviceAccountName: flux:deploy
+  interval: 5m
+  path: {{ $team.path }}
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: {{ $team.name }}
+    namespace: {{ $team.name }}
+  timeout: 2m
+{{- end }}
+{{- end }}
+{{- end }}

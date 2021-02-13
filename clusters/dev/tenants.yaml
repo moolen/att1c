@@ -1,0 +1,34 @@
+
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: HelmRepository
+metadata:
+  name: att1c-chart-repo
+  namespace: flux-system
+spec:
+  url: https://raw.githubusercontent.com/moolen/att1c/master
+  interval: 10m
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: backend
+  namespace: flux-system
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: team-blueprint
+      sourceRef:
+        kind: HelmRepository
+        name: att1c-chart-repo
+        namespace: flux-system
+      interval: 1m
+  values:
+    teams:
+    - name: "tenant-a-app1"
+      repo: https://github.com/moolen/att1c-tenant
+      path: "./dev/app1"
+    - name: "tenant-a-app2"
+      repo: https://github.com/moolen/att1c-tenant
+      path: "./dev/app2"
+---

@@ -1,0 +1,21 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: GitRepository
+metadata:
+  name: att1c-tenant
+spec:
+  interval: 1m
+  url: https://github.com/moolen/att1c-tenant
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: att1c-tenant
+spec:
+  serviceAccountName: flux:deploy
+  interval: 5m
+  sourceRef:
+    kind: GitRepository
+    name: att1c-tenant
+  prune: true
+  validation: client
+---
