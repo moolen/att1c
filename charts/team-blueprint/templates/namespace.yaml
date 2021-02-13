@@ -16,7 +16,7 @@ metadata:
   name: namespace-admin
   namespace: {{ $team.name }}
   annotations:
-    foo.acme.com/team: {{ $team.name }}
+    example.acme.com/team: {{ $team.name }}
 rules:
 - apiGroups: ["*"]
   resources: ["*"]
