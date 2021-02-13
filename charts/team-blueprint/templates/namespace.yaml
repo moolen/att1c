@@ -25,7 +25,7 @@ rules:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: flux:deploy
+  name: flux.deploy
   namespace: {{ $team.name }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -39,7 +39,7 @@ roleRef:
   name: namespace-admin
 subjects:
 - kind: ServiceAccount
-  name: flux:deploy
+  name: flux.deploy
   namespace: {{ $team.name }}
 ---
 apiVersion: source.toolkit.fluxcd.io/v1beta1
@@ -57,7 +57,7 @@ metadata:
   name: {{ $team.name }}
   namespace: {{ $team.name }}
 spec:
-  serviceAccountName: flux:deploy
+  serviceAccountName: flux.deploy
   interval: 5m
   path: {{ $team.path }}
   prune: true
