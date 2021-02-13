@@ -1,0 +1,11 @@
+apiVersion: v1
+entries:
+  team-blueprint:
+  - apiVersion: v2
+    created: "2021-02-13T23:05:34.772769404Z"
+    digest: 92e0faa44cf2ffd7cc56075c1315d8654149f25e7a37c2feea8d94cd72a97f7f
+    name: team-blueprint
+    urls:
+    - https://github.com/moolen/att1c/releases/download/team-blueprint-1.2.4/team-blueprint-1.2.4.tgz
+    version: 1.2.4
+generated: "2021-02-13T23:05:34.630135526Z"
