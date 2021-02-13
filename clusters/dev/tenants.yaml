@@ -5,7 +5,7 @@ metadata:
   name: att1c-chart-repo
   namespace: flux-system
 spec:
-  url: https://raw.githubusercontent.com/moolen/att1c/master
+  url: https://moolen.github.io/att1c
   interval: 10m
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
